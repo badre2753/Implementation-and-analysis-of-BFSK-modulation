@@ -6,8 +6,176 @@
 </head>
 <body>
 		<!-- Your code goes here-->
+		 
+<body>
+
+    <h1>BFSK Modulation System with Input Enforcement</h1>
+
+    <button id="powerBtn">Power ON</button>
+    <button id="resetConnectionsBtn">Reset Connections</button>
+
+    <div id="statusMessage">Invalid connection!</div>
+
+    <div id="kit">
+
+        <!-- Function Generator 1 -->
+        <div class="module" id="funcGen1">
+            <h2>Function Generator 1</h2>
+            <div class="ports-row">
+                <div class="port-block"></div>
+                <div class="port-block"></div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="funcGen1" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Frequency: <span id="funcFreq1Val">2</span> MHz</div>
+                <button onclick="changeFrequency('func1', -0.5)" id="func1FreqDownBtn">-</button>
+                <button onclick="changeFrequency('func1', 0.5)" id="func1FreqUpBtn">+</button>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Amplitude: <span id="funcAmp1Val">15</span> V</div>
+                <button onclick="changeAmplitude('func1', -1)" id="func1AmpDownBtn">-</button>
+                <button onclick="changeAmplitude('func1', 1)" id="func1AmpUpBtn">+</button>
+            </div>
+        </div>
+
+        <!-- Function Generator 2 -->
+        <div class="module" id="funcGen2">
+            <h2>Function Generator 2</h2>
+            <div class="ports-row">
+                <div class="port-block"></div>
+                <div class="port-block"></div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="funcGen2" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Frequency: <span id="funcFreq2Val">2.5</span> MHz</div>
+                <button onclick="changeFrequency('func2', -0.5)" id="func2FreqDownBtn">-</button>
+                <button onclick="changeFrequency('func2', 0.5)" id="func2FreqUpBtn">+</button>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Amplitude: <span id="funcAmp2Val">15</span> V</div>
+                <button onclick="changeAmplitude('func2', -1)" id="func2AmpDownBtn">-</button>
+                <button onclick="changeAmplitude('func2', 1)" id="func2AmpUpBtn">+</button>
+            </div>
+        </div>
+
+        <!-- Binary Input & NRZ Square Wave -->
+        <div class="module" id="binaryModule">
+            <h2>Binary Input (NRZ Data)</h2>
+            <div id="binaryInput" title="Toggle bits 0 or 1">
+                <label><input type="checkbox" data-bit="7" />7</label>
+                <label><input type="checkbox" data-bit="6" />6</label>
+                <label><input type="checkbox" data-bit="5" />5</label>
+                <label><input type="checkbox" data-bit="4" />4</label>
+                <label><input type="checkbox" data-bit="3" />3</label>
+                <label><input type="checkbox" data-bit="2" />2</label>
+                <label><input type="checkbox" data-bit="1" />1</label>
+                <label><input type="checkbox" data-bit="0" />0</label>
+            </div>
+            <div class="ports-row" style="margin-top: 15px;">
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="binaryModule" data-index="0"></div>
+                    <div class="port-label">Input</div>
+                </div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="binaryModule" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Balanced Modulator 1 -->
+        <div class="module" id="balMod1">
+            <h2>Modulator 1 (Mark)</h2>
+            <div class="ports-row">
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="balMod1" data-index="0"
+                        data-input="signal"></div>
+                    <div class="port-label">Signal</div>
+                </div>
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="balMod1" data-index="1"
+                        data-input="carrier"></div>
+                    <div class="port-label">Carrier</div>
+                </div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="balMod1" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Balanced Modulator 2 -->
+        <div class="module" id="balMod2">
+            <h2>Modulator 2 (Space)</h2>
+            <div class="ports-row">
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="balMod2" data-index="0"
+                        data-input="signal"></div>
+                    <div class="port-label">Input</div>
+                </div>
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="balMod2" data-index="1"
+                        data-input="carrier"></div>
+                    <div class="port-label">Carrier</div>
+                </div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="balMod2" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOT Gate -->
+        <div class="module" id="notGate">
+            <h2>NOT Gate</h2>
+            <div class="ports-row">
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="notGate" data-index="0"></div>
+                    <div class="port-label">Input</div>
+                </div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="notGate" data-index="0"></div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summing Amplifier -->
+        <div class="module" id="summingAmplifier">
+            <h2>Summing Amplifier</h2>
+            <div class="ports-row">
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="summingAmplifier" data-index="0"></div>
+                    <div class="port-label">Input 1</div>
+                </div>
+                <div class="port-block">
+                    <div class="port input-port" data-type="input" data-module="summingAmplifier" data-index="1"></div>
+                    <div class="port-label">Input 2</div>
+                </div>
+                <div class="port-block">
+                    <div class="port output-port" data-type="output" data-module="summingAmplifier" data-index="0">
+                    </div>
+                    <div class="port-label">Output</div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <canvas id="waveCanvas"></canvas>
+    <canvas id="bfskCanvas" width="885" height="100"></canvas>
+    <div id="bfskOutput">BFSK Output: Not connected</div>
+
 
 	<!-- Add JS at the bottom of HTML file --> 
         <script src="./js/main.js"></script>
 </body>
+
 </html>
