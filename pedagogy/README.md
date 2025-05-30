@@ -5,13 +5,13 @@
 
 
 <br>
-<b> Experiment : Name of the experiment	 <a name="top"></a> <br>
+<b> Experiment :Implementation and analysis of BFSK Modulation <a name="top"></a> <br>
 </p>
 
-<b>Discipline | Fill your discipline name here <b> 
+<b>Discipline | ELECTRONICS AND COMMUNICATION ENGINEERING <b> 
 :--|:--|
-<b> Lab | Fill your lab name here<b> 
-<b> Experiment|  Fill your experiment name here   <b> 
+<b> Lab | DIGITAL COMMUNICATION LAB<b> 
+<b> Experiment|  Implementation and analysis of BFSK modulation  <b> 
 
 
 <h4> [1. Focus Area](#LO)
