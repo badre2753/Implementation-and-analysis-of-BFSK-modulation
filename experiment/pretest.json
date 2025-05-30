@@ -22,7 +22,7 @@
       "question": "How will you verify the modulated BFSK signal ?",
       "answers": {
         "a": " oscilloscope",
-        "b": Spectrum analyzer",
+        "b": "Balanced Modulator",
         "c": "Demodulator",
         "d": "Multimeter"
       },
