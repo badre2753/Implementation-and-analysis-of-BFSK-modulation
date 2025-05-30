@@ -2,12 +2,12 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What real-world applications use BFSK modulation?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Wireless sensor networks",
+        "b": "Remote data transmission",
+        "c": "only a",
+        "d": "a and b"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -15,16 +15,16 @@
         "c": "Explanation 2",
         "d": "Explanation 2"
       },
-      "correctAnswer": "a",
+      "correctAnswer": "a and b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "The modulation index (h) in BFSK is defined as?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "h=del(f)/Rb",
+        "b": "h=Rb/del(f)",
+        "c": "h=2del(f)/Rb",
+        "d": "h=(f1+f2)/2"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
