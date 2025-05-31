@@ -1,3 +1,8 @@
+
+![NRZ (1)](https://github.com/user-attachments/assets/94367db1-03d8-4288-a627-ada9c11c6486)
+
+
+
 Step 1: forst on the power .
          Give binary input 
 
