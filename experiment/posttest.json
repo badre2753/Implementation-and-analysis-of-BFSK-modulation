@@ -34,6 +34,40 @@
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
-    }
-  ]
+    },
+    {
+       "question": "In BFSK modulation, which parameter is varied to represent binary '1' and '0'?",
+    "answers": {
+      "a": "Amplitude",
+      "b": "Phase",
+      "c": "Frequency",
+      "d": "Time"
+    },
+    "explanations": {
+      "a": "Amplitude is not varied in BFSK.",
+      "b": "Phase variation is used in PSK, not BFSK.",
+      "c": "Correct — BFSK uses different frequencies for '0' and '1'.",
+      "d": "Time variation is unrelated here."
+    },
+    "correctAnswer": "c",
+    "difficulty": "beginner"
+  },
+    {
+      "question": "What is the main difference between BFSK and ASK?",
+    "answers": {
+      "a": "BFSK varies amplitude",
+      "b": "ASK varies frequency",
+      "c": "BFSK varies frequency",
+      "d": "They are the same"
+    },
+    "explanations": {
+      "a": "Incorrect — ASK varies amplitude.",
+      "b": "Incorrect — ASK does not vary frequency.",
+      "c": "Correct — BFSK uses frequency changes for modulation.",
+      "d": "They are not the same."
+    },
+    "correctAnswer": "c",
+    "difficulty": "beginner"
+  }
+]
 }
