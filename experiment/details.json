@@ -2,8 +2,8 @@
 
    "details": [
        {
-			"Experiment": "Voltage Distribution Across String Insulators",     
-			"Lab": "Power System Lab",               
+			"Experiment": "Implementation and analysis of BASK modulation",     
+			"Lab": "DIGITAL COMMUNICATION LAB",               
 			"Discipline": "Electronics Engineering",				 
 			"Technology": "HTML CSS Javascript"         
        }
@@ -19,33 +19,29 @@
 
    "contributer": [
        {       
-			"Contributer": "Ridam Sharma",             
+			"Contributer": "Faizan Ahamad",             
       "Institute": "REC Kannauj",               
 			"InstituteAcronym": "RECK"         
        },
 
        {       
-			"Contributer": "Dhananjay Singh Gaur",              
+			"Contributer": "Badre Alam",              
       "Institute": "REC Kannauj",               
 			"InstituteAcronym": "RECK"         
        },
 
        {       
-			"Contributer": "Ichha Shukla",             
+			"Contributer": "Aman Kumar",             
       "Institute": "REC Kannauj",               
 			"InstituteAcronym": "RECK"         
        },
 
        {       
-			"Contributer": "Satish Kumar",              
-      "Institute": "REC Kannauj",               
-			"InstituteAcronym": "RECK"         
-       },
-       {       
-			"Contributer": "Shaili Chauhan",              
+			"Contributer": "Gaurav Baghel",              
       "Institute": "REC Kannauj",               
 			"InstituteAcronym": "RECK"         
        }
+       
    ]
 
 }

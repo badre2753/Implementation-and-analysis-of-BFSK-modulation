@@ -89,57 +89,47 @@
 
 
   const myQuestions = [
-    {
-      question: "On increasing the radius of the steel ball to double its value the terminal velocity of the ball become box:",  ///// Write the question inside double quotes
-      answers: {
-        a: " double",                  ///// Write the option 1 inside double quotes
-        b: "four times",                  ///// Write the option 2 inside double quotes
-        c: "eight times",                  ///// Write the option 3 inside double quotes
-        d: "sixteen times"                   ///// Write the option 4 inside double quotes
-      },
-      correctAnswer: "b"                ///// Write the correct option inside double quotes
+  {
+    question: "1. What real-world applications use BFSK modulation?",
+    answers: {
+      a: "Wireless sensor networks",
+      b: "Remote data transmission",
+      c: "only a",
+      d: "a and b"
     },
-
-    {
-      question: " On increasing density of material of the falling ball its terminal velocity:",  ///// Write the question inside double quotes
-      answers: {
-        a: "Increases",                  ///// Write the option 1 inside double quotes
-        b: "decreases",                  ///// Write the option 2 inside double quotes
-        c: "remains constant",                  ///// Write the option 3 inside double quotes
-        d: "NOT"                   ///// Write the option 4 inside double quotes
-      },
-      correctAnswer: "a"                ///// Write the correct option inside double quotes
-    },                                  ///// To add more questions, copy the section below 
-    									                  ///// this line
-
-
-    /* To add more MCQ's, copy the below section, starting from open curly braces ( { )
-        till closing curly braces comma ( }, )
-
-        and paste it below the curly braces comma ( below correct answer }, ) of above 
-        question
-
-    Copy below section
-
-    {
-      question: "This is question n?",
-      answers: {
-        a: "Option 1",
-        b: "Option 2",
-        c: "Option 3",
-        d: "Option 4"
-      },
-      correctAnswer: "c"
+    correctAnswer: "d"
+  },
+  {
+    question: "2. The modulation index (h) in BFSK is defined as?",
+    answers: {
+      a: "h=del(f)/Rb",
+      b: "h=Rb/del(f)",
+      c: "h=2del(f)/Rb",
+      d: "h=(f1+f2)/2"
     },
-
-    Copy above section
-
-    */
-
-
-
-
-  ];
+    correctAnswer: "c"
+  },
+  {
+    question: "3. In BFSK modulation, which parameter is varied to represent binary '1' and '0'?",
+    answers: {
+      a: "Amplitude",
+      b: "Phase",
+      c: "Frequency",
+      d: "Time"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "4. What is the main difference between BFSK and ASK?",
+    answers: {
+      a: "BFSK varies amplitude",
+      b: "ASK varies frequency",
+      c: "BFSK varies frequency",
+      d: "They are the same"
+    },
+    correctAnswer: "c"
+  }
+];
 
 
 
