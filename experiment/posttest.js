@@ -88,7 +88,11 @@
 /////////////// Write the MCQ below in the exactly same described format ///////////////
 
 
+<<<<<<< HEAD
   const myQuestions = [
+=======
+ const myQuestions = [
+>>>>>>> 5c7a6ca5ea771b6686241f1514d5052b2c4c749e
   {
     question: "1. What real-world applications use BFSK modulation?",
     answers: {
