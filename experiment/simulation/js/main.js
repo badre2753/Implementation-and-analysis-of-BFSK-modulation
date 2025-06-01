@@ -1,4 +1,4 @@
-   // State
+     // State
         let powerOn = false;
         let selectedPort = null;
         let connections = [];
@@ -15,12 +15,14 @@
         const resetConnectionsBtn = document.getElementById('resetConnectionsBtn');
         const showOscilloscopeBtn = document.getElementById('showOscilloscopeBtn');
         const statusMessage = document.getElementById('statusMessage');
+        // const bfskOutput = document.getElementById('bfskOutput');
 
         const funcFreq1Val = document.getElementById('funcFreq1Val');
         const funcAmp1Val = document.getElementById('funcAmp1Val');
         const funcFreq2Val = document.getElementById('funcFreq2Val');
         const funcAmp2Val = document.getElementById('funcAmp2Val');
 
+      
         // Oscilloscope elements
         const oscilloscopeModal = document.getElementById('oscilloscopeModal');
         const oscilloscopeClose = document.getElementById('oscilloscopeClose');
@@ -268,14 +270,10 @@
             event.preventDefault();
             event.stopPropagation();
 
-            // Prevent page scrolling during connection
-            document.body.classList.add('connecting');
-
             if (!inputsLocked) {
                 // Before locking inputs, ensure binary input is given (at least one bit set)
                 if (!validateUserInputs()) {
                     showStatus("Please provide binary input and set function generator parameters before making connections");
-                    document.body.classList.remove('connecting');
                     return;
                 }
             }
@@ -294,14 +292,13 @@
             if (port.getAttribute('data-type') === 'output') {
                 document.addEventListener('mousemove', moveTempConnection);
                 document.addEventListener('mouseup', releaseTempConnection);
-                document.addEventListener('touchmove', handleTouchMove, {passive: false});
+                document.addEventListener('touchmove', handleTouchMove);
                 document.addEventListener('touchend', handleTouchEnd);
             }
         }
 
         // Handle touch movement
         function handleTouchMove(e) {
-            e.preventDefault();
             if (!selectedPort || selectedPort.getAttribute('data-type') !== 'output') return;
             const touch = e.touches[0];
             moveTempConnection(touch);
@@ -309,9 +306,6 @@
 
         // Handle touch end
         function handleTouchEnd(e) {
-            // Clean up the connecting class
-            document.body.classList.remove('connecting');
-            
             if (!selectedPort) return;
             
             const touch = e.changedTouches[0];
@@ -406,9 +400,6 @@
             document.removeEventListener('mouseup', releaseTempConnection);
             document.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('touchend', handleTouchEnd);
-
-            // Clean up the connecting class
-            document.body.classList.remove('connecting');
 
             if (tempConnection) {
                 document.getElementById('kit').removeChild(tempConnection);
