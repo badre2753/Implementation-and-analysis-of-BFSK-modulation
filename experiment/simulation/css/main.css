@@ -1,4 +1,4 @@
- body {
+    body {
             margin: 0;
             padding: 10px;
             background: white;
@@ -7,6 +7,14 @@
             flex-direction: column;
             align-items: center;
             user-select: none;
+            touch-action: manipulation;
+        }
+
+        body.connecting {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
         }
 
         h1 {
@@ -97,6 +105,8 @@
             user-select: none;
             font-size: 14px;
             transition: transform 0.1s ease;
+            min-width: 100px;
+            min-height: 40px;
         }
 
 
@@ -336,5 +346,13 @@
             .module {
                 width: 100%;
                 max-width: 350px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+            .port {
+                width: 24px;
+                height: 24px;
             }
         }

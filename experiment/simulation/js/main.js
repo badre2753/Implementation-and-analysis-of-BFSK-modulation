@@ -1,6 +1,4 @@
-//Your JavaScript goes in here
-
-        // State
+   // State
         let powerOn = false;
         let selectedPort = null;
         let connections = [];
@@ -17,14 +15,12 @@
         const resetConnectionsBtn = document.getElementById('resetConnectionsBtn');
         const showOscilloscopeBtn = document.getElementById('showOscilloscopeBtn');
         const statusMessage = document.getElementById('statusMessage');
-        // const bfskOutput = document.getElementById('bfskOutput');
 
         const funcFreq1Val = document.getElementById('funcFreq1Val');
         const funcAmp1Val = document.getElementById('funcAmp1Val');
         const funcFreq2Val = document.getElementById('funcFreq2Val');
         const funcAmp2Val = document.getElementById('funcAmp2Val');
 
-      
         // Oscilloscope elements
         const oscilloscopeModal = document.getElementById('oscilloscopeModal');
         const oscilloscopeClose = document.getElementById('oscilloscopeClose');
@@ -38,16 +34,14 @@
         // Binary Input bits state, 8 bits
         const binaryBits = new Array(8).fill(false);
 
-       
-
+        // Setup canvas size for responsiveness
         function resizeCanvas() {            
-    oscilloscopeDisplay.width = document.getElementById('oscilloscopeContent').offsetWidth - 40;
-    oscilloscopeDisplay.height = 300;
-}
+            oscilloscopeDisplay.width = document.getElementById('oscilloscopeContent').offsetWidth - 40;
+            oscilloscopeDisplay.height = 300;
+        }
 
         window.addEventListener('resize', () => {
             resizeCanvas();
-            drawFinalBFSKWaveform();
             if (oscilloscopeModal.style.display === 'block') {
                 drawOscilloscope();
             }
@@ -208,8 +202,6 @@
             
             oscilloscopeCtx.stroke();
             
-            
-            
             // Add time markers
             oscilloscopeCtx.fillStyle = 'yellow';
             oscilloscopeCtx.font = '12px Arial';
@@ -219,21 +211,20 @@
             }
         }
 
-        
         // Power toggle function
-      powerBtn.onclick = () => {
-      powerOn = !powerOn;
-  
-      // Update button appearance
-       powerBtn.textContent = powerOn ? "Power OFF" : "Power ON";
-       powerBtn.className = powerOn ? "on" : "off";
-  
-      // Update system state
-       updateBFSKOutput();
-       };
+        powerBtn.onclick = () => {
+            powerOn = !powerOn;
+        
+            // Update button appearance
+            powerBtn.textContent = powerOn ? "Power OFF" : "Power ON";
+            powerBtn.className = powerOn ? "on" : "off";
+        
+            // Update system state
+            updateBFSKOutput();
+        };
 
-       // Initialize button state
-       powerBtn.className = "off"; // Start in OFF (red) state
+        // Initialize button state
+        powerBtn.className = "off"; // Start in OFF (red) state
 
         // Reset connections and unlock inputs
         resetConnectionsBtn.onclick = () => {
@@ -272,35 +263,92 @@
             document.getElementById('func2AmpUpBtn').disabled = !enable;
         }
 
-        // Port click events
+        // Handle port selection (for both mouse and touch)
+        function handlePortSelection(port, event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            // Prevent page scrolling during connection
+            document.body.classList.add('connecting');
+
+            if (!inputsLocked) {
+                // Before locking inputs, ensure binary input is given (at least one bit set)
+                if (!validateUserInputs()) {
+                    showStatus("Please provide binary input and set function generator parameters before making connections");
+                    document.body.classList.remove('connecting');
+                    return;
+                }
+            }
+
+            if (!inputsLocked) {
+                // Lock inputs on first successful connection attempt
+                inputsLocked = true;
+                enableInputs(false);
+            }
+
+            document.querySelectorAll('.port').forEach(p => p.classList.remove('selected'));
+
+            port.classList.add('selected');
+            selectedPort = port;
+
+            if (port.getAttribute('data-type') === 'output') {
+                document.addEventListener('mousemove', moveTempConnection);
+                document.addEventListener('mouseup', releaseTempConnection);
+                document.addEventListener('touchmove', handleTouchMove, {passive: false});
+                document.addEventListener('touchend', handleTouchEnd);
+            }
+        }
+
+        // Handle touch movement
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!selectedPort || selectedPort.getAttribute('data-type') !== 'output') return;
+            const touch = e.touches[0];
+            moveTempConnection(touch);
+        }
+
+        // Handle touch end
+        function handleTouchEnd(e) {
+            // Clean up the connecting class
+            document.body.classList.remove('connecting');
+            
+            if (!selectedPort) return;
+            
+            const touch = e.changedTouches[0];
+            const hoveredElement = document.elementFromPoint(touch.clientX, touch.clientY);
+            const targetPort = hoveredElement?.closest('.port');
+
+            if (targetPort && targetPort !== selectedPort) {
+                tryCreateConnection(selectedPort, targetPort);
+            } else {
+                showStatus("Incomplete connection");
+            }
+
+            selectedPort.classList.remove('selected');
+            selectedPort = null;
+            
+            // Clean up temp connection if it exists
+            if (tempConnection) {
+                document.getElementById('kit').removeChild(tempConnection);
+                tempConnection = null;
+            }
+            
+            // Remove event listeners
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchEnd);
+            document.removeEventListener('mousemove', moveTempConnection);
+            document.removeEventListener('mouseup', releaseTempConnection);
+        }
+
+        // Port click events (both mouse and touch)
         document.querySelectorAll('.port').forEach(port => {
-            port.addEventListener('mousedown', function (e) {
-                e.stopPropagation();
-
-                if (!inputsLocked) {
-                    // Before locking inputs, ensure binary input is given (at least one bit set)
-                    if (!validateUserInputs()) {
-                        showStatus("Please provide binary input and set function generator parameters before making connections");
-                        return;
-                    }
-                }
-
-                if (!inputsLocked) {
-                    // Lock inputs on first successful connection attempt
-                    inputsLocked = true;
-                    enableInputs(false);
-                }
-
-                document.querySelectorAll('.port').forEach(p => p.classList.remove('selected'));
-
-                this.classList.add('selected');
-                selectedPort = this;
-
-                if (this.getAttribute('data-type') === 'output') {
-                    document.addEventListener('mousemove', moveTempConnection);
-                    document.addEventListener('mouseup', releaseTempConnection);
-                }
+            port.addEventListener('mousedown', function(e) {
+                handlePortSelection(this, e);
             });
+            
+            port.addEventListener('touchstart', function(e) {
+                handlePortSelection(this, e);
+            }, {passive: false});
         });
 
         // Validate binary input and function generator params before allowing connections
@@ -328,10 +376,15 @@
             const kitRect = kit.getBoundingClientRect();
             const portRect = selectedPort.getBoundingClientRect();
 
+            const clientX = e.clientX || e.touches?.[0]?.clientX;
+            const clientY = e.clientY || e.touches?.[0]?.clientY;
+            
+            if (!clientX || !clientY) return;
+
             const startX = portRect.left + portRect.width / 2 - kitRect.left;
             const startY = portRect.top + portRect.height / 2 - kitRect.top;
-            const endX = e.clientX - kitRect.left;
-            const endY = e.clientY - kitRect.top;
+            const endX = clientX - kitRect.left;
+            const endY = clientY - kitRect.top;
 
             if (!tempConnection) {
                 tempConnection = document.createElement('div');
@@ -351,6 +404,11 @@
         function releaseTempConnection(e) {
             document.removeEventListener('mousemove', moveTempConnection);
             document.removeEventListener('mouseup', releaseTempConnection);
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchEnd);
+
+            // Clean up the connecting class
+            document.body.classList.remove('connecting');
 
             if (tempConnection) {
                 document.getElementById('kit').removeChild(tempConnection);
@@ -371,7 +429,6 @@
             selectedPort.classList.remove('selected');
             selectedPort = null;
         }
-
 
         function tryCreateConnection(sourcePort, targetPort) {
             const sourceType = sourcePort.getAttribute('data-type');
@@ -507,22 +564,7 @@
 
         function updateBFSKOutput() {
             const allConnectionsMade = checkAllConnections();
-
-            if (allConnectionsMade) {
-                bfskOutput.textContent = "BFSK Output: Connected and ready";
-                bfskOutput.style.color = "green";
-                bfskCanvas.style.display = "block";
-                if (powerOn) {
-                    drawFinalBFSKWaveform();
-                }
-            } else {
-                bfskOutput.textContent = "BFSK Output: Incomplete connections";
-                bfskOutput.style.color = "red";
-                bfskCanvas.style.display = "none";
-                bfskCtx.clearRect(0, 0, bfskCanvas.width, bfskCanvas.height);
-            }
-
-            drawAllWaves();
+            // No need to update any display since we removed the output elements
         }
 
         function changeFrequency(gen, delta) {
@@ -537,7 +579,9 @@
                 func2.freq = Math.min(Math.max(func2.freq + delta, 0.1), func2.freqMax);
                 funcFreq2Val.textContent = func2.freq.toFixed(2);
             }
-            drawAllWaves();
+            if (oscilloscopeModal.style.display === 'block') {
+                drawOscilloscope();
+            }
         }
 
         function changeAmplitude(gen, delta) {
@@ -552,7 +596,9 @@
                 func2.amp = Math.min(Math.max(func2.amp + delta, 0), 40);
                 funcAmp2Val.textContent = func2.amp.toFixed(1);
             }
-            drawAllWaves();
+            if (oscilloscopeModal.style.display === 'block') {
+                drawOscilloscope();
+            }
         }
 
         // Forbid binary inputs change after locking
@@ -566,104 +612,15 @@
                 }
                 const bitIndex = parseInt(cb.getAttribute('data-bit'));
                 binaryBits[bitIndex] = cb.checked;
-                if (powerOn) {
-                    drawAllWaves();
-                    updateBFSKOutput();
+                if (powerOn && oscilloscopeModal.style.display === 'block') {
+                    drawOscilloscope();
                 }
             });
         });
 
-        function drawSineWave(freqMHz, amp, color, yOffset) {
-            const points = 1000;
-            const twoPi = 2 * Math.PI;
-            const canvasW = waveCanvas.width;
-
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-
-            let cycles = 10;
-            let phaseInc = (twoPi * cycles) / points;
-
-            for (let i = 0; i <= points; i++) {
-                let x = (i / points) * canvasW;
-                let angle = phaseInc * i;
-                let val = Math.sin(angle);
-                let y = yOffset - val * (amp / 40) * 60;
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-        }
-
-        function drawNRZ(bits, yOffset) {
-            const canvasW = waveCanvas.width;
-            const bitWidth = canvasW / bits.length;
-            const highY = yOffset - 40;
-            const lowY = yOffset + 40;
-
-            ctx.strokeStyle = 'blue';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-
-            let x = 0;
-            ctx.moveTo(x, bits[0] ? highY : lowY);
-
-            for (let i = 0; i < bits.length; i++) {
-                x = i * bitWidth;
-                ctx.lineTo(x, bits[i] ? highY : lowY);
-                ctx.lineTo(x + bitWidth, bits[i] ? highY : lowY);
-            }
-            ctx.stroke();
-        }
-
-        function drawAllWaves() {
-            ctx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-
-            const centerY1 = 100;
-            const centerY2 = 170;
-            const centerY3 = 200;
-
-            ctx.strokeStyle = '#aaa';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(0, centerY1);
-            ctx.lineTo(waveCanvas.width, centerY1);
-            ctx.moveTo(0, centerY2);
-            ctx.lineTo(waveCanvas.width, centerY2);
-            ctx.moveTo(0, centerY3);
-            ctx.lineTo(waveCanvas.width, centerY3);
-            ctx.stroke();
-
-            if (!powerOn) {
-                ctx.fillStyle = '#a00';
-                ctx.font = 'bold 30px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('Power OFF', waveCanvas.width / 2, waveCanvas.height / 2);
-                return;
-            }
-
-            // Draw function generators for visualization
-            drawSineWave(func1.freq, func1.amp, func1.color, centerY1);
-            drawSineWave(func2.freq, func2.amp, func2.color, centerY2);
-
-            drawNRZ(binaryBits, centerY3);
-        }
-
-
-        function updateBFSKOutput() {
-           const allConnectionsMade = checkAllConnections();
-             // No need to update any display since we removed the output elements
-        }
-
-       
-
+        // Initialize
         funcFreq1Val.textContent = func1.freq.toFixed(2);
         funcAmp1Val.textContent = func1.amp.toFixed(1);
         funcFreq2Val.textContent = func2.freq.toFixed(2);
         funcAmp2Val.textContent = func2.amp.toFixed(1);
-
-        drawAllWaves();
-        updateBFSKOutput();
-
-  
+        resizeCanvas();
