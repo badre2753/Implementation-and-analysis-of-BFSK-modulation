@@ -22,6 +22,6 @@ SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
 1 | Badre Alam. |Student . |Electronics Engineering . |Rajkiya Engineering College Kannauj . |badre2753@gmail.com 
 2 |Faizan Ahamad . | Student. |Computer science Engineering. |Rajkiya Engineering College Kannauj . |ahamadfaizan525@gmail.com 
-3| Gaurav Baghel|Student.|Electronics Engineering|Rajkiya Engineering College Kannauj|gauravbaghel2k24@gmail.com
+3| Abhinav Singh|Student.|Computer Science Engineering|Rajkiya Engineering College Kannauj|abhi9568singh@gmail.com
 4|Aman Kumar|Student|Electrical Engineering |Rajkiya Engineering College Kannauj|aman548555@gmail.com
 
